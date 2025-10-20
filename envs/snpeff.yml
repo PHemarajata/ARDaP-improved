@@ -1,0 +1,10 @@
+name: snpeff_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - snpEff>=5
+  # snpEff binaries may require a more recent Java runtime (Java 21 / class file version 65)
+  # Use OpenJDK 21 to satisfy newer snpEff builds.
+  - openjdk=21

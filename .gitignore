@@ -1,0 +1,26 @@
+# Nextflow specific files
+work/
+.nextflow.log
+.nextflow/
+.nextflow*
+
+# Common temporary and log files
+*.tmp
+*.log
+
+# Output directories (adjust as needed)
+results/
+output/
+Output/
+
+# Sensitive information
+.env
+config/secrets.config
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Dependency directories (if applicable)
+node_modules/
+venv/
