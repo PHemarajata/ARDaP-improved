@@ -418,6 +418,7 @@ if (params.mixtures) {
 
     label "gatk"
     tag { "$id" }
+  conda "${baseDir}/envs/snpeff.yml"
     publishDir "${params.outdir}/Variants/Annotated", mode: 'copy', pattern: "*.ALL.annotated.mixture.vcf", overwrite: false
     publishDir "${params.outdir}/Variants/VCFs", mode: 'copy', pattern: "*.PASS.snps.indels.mixed.vcf", overwrite: false
 
@@ -466,6 +467,7 @@ if (params.mixtures) {
 
     label "ardap_default"
     tag { "$id" }
+  conda "${baseDir}/envs/snpeff.yml"
 
     input:
     set id, file(variants) from mixtureArdapProcessing
@@ -528,6 +530,7 @@ if (params.mixtures) {
 
       label "gatk"
       tag { "$id" }
+  conda "${baseDir}/envs/snpeff.yml"
       publishDir "${params.outdir}/Variants/VCFs", mode: 'copy', pattern: "*FAIL*.vcf", overwrite: false
       publishDir "${params.outdir}/Variants/VCFs", mode: 'copy', pattern: "*PASS*.vcf", overwrite: false
       publishDir "${params.outdir}/Variants/Annotated", mode: 'copy', pattern: "*annotated*.vcf", overwrite: false
