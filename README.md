@@ -304,3 +304,21 @@ A: Take a look at the nextflow.config file to see if sufficient resources are be
 Please send bug reports to derek.sarovich@gmail.com or log them in the github 'issues' tab
 
 =======
+
+## Parser utility
+
+A small HTML report parser is provided in `bin/parse_ardap.py`. It extracts a few
+key fields (SampleID, summary lines, selected resistance-prediction option, and
+antimicrobial determinant details) from per-sample ARDaP HTML reports and writes
+them to a TSV. Install its dependency with:
+
+```bash
+pip install -r bin/requirements-parser.txt
+```
+
+Usage:
+
+```bash
+python bin/parse_ardap.py /path/to/AbR_reports /tmp/ardap_summary.tsv
+```
+
