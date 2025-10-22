@@ -5,6 +5,9 @@ channels:
   - defaults
 
 dependencies:
-  - snpEff>=5
-  - openjdk=21
-  - mamba
+  - openjdk=17
+  - snpeff=5.1
+  - gatk4
+  - delly
+  - bcftools
+  - htslib
