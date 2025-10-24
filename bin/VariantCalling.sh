@@ -28,9 +28,19 @@ echo "fast = $fast"
 #import GATK filtering parameters
 source ${baseDir}/configs/gatk_source.config
 
-# Prefer running snpEff from the isolated conda env. Can be overridden by setting
-# SNPEFF_CMD in the environment (e.g. to a containerized snpEff invocation).
-SNPEFF_CMD="${SNPEFF_CMD:-conda run -n snpeff_env snpEff}"
+# Prefer running snpEff from the isolated Java-21 env `ardap_snpeff21`.
+# If `SNPEFF_CMD` is provided in the environment it will be used (useful for
+# containers). Otherwise prefer `mamba run -n ardap_snpeff21 snpEff`, fall back
+# to `conda run -n ardap_snpeff21 snpEff`, and finally to plain `snpEff`.
+if [ -z "${SNPEFF_CMD+x}" ]; then
+  if command -v mamba >/dev/null 2>&1; then
+    SNPEFF_CMD="mamba run -n ardap_snpeff21 snpEff"
+  elif command -v conda >/dev/null 2>&1; then
+    SNPEFF_CMD="conda run -n ardap_snpeff21 snpEff"
+  else
+    SNPEFF_CMD="snpEff"
+  fi
+fi
 
 if [ "$fast" == "true" ]; then
 

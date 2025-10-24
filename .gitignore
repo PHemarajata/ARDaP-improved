@@ -24,3 +24,17 @@ config/secrets.config
 # Dependency directories (if applicable)
 node_modules/
 venv/
+
+# ARDaP outputs and temporary data
+Outputs/
+SmokeData/
+SmokeData/*
+work_smoke/
+smoke_report.html*
+trace.txt*
+snpEff_summary.html
+report.html
+*.html
+
+# Conda env caches created by Nextflow
+work/**/conda/
