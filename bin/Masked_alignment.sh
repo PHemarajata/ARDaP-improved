@@ -51,7 +51,21 @@ mv ${id}.gene.list.tmp ${id}.gene.list
 
 uniq ${id}.gene.list > ${id}.gene.list.tmp
 mv ${id}.gene.list.tmp ${id}.gene.list
-${SNPEFF_CMD:-snpEff} genes2bed ${snpeff} -dataDir ${baseDir}/resources/snpeff -f ${id}.gene.list > ${id}.intervals.list
+# Prefer running snpEff from the isolated Java-21 env `ardap_snpeff21`.
+# If `SNPEFF_CMD` is provided in the environment it will be used (useful for
+# containers). Otherwise prefer `mamba run -n ardap_snpeff21 snpEff`, fall back
+# to `conda run -n ardap_snpeff21 snpEff`, and finally to plain `snpEff`.
+if [ -z "${SNPEFF_CMD+x}" ]; then
+	if command -v mamba >/dev/null 2>&1; then
+		SNPEFF_CMD="mamba run -n ardap_snpeff21 snpEff"
+	elif command -v conda >/dev/null 2>&1; then
+		SNPEFF_CMD="conda run -n ardap_snpeff21 snpEff"
+	else
+		SNPEFF_CMD="snpEff"
+	fi
+fi
+
+${SNPEFF_CMD} genes2bed ${snpeff} -dataDir ${baseDir}/resources/snpeff -f ${id}.gene.list > ${id}.intervals.list
 sed -i 's/\t/:/' ${id}.intervals.list
 sed -i 's/\t/-/' ${id}.intervals.list
 awk '{print $1}' ${id}.intervals.list | tail -n+2 > ${id}.intervals.list.tmp

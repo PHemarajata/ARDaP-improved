@@ -171,6 +171,8 @@ process IndexReference {
 
         label "index"
 
+  conda "${baseDir}/envs/snpeff_java.yml"
+
         input:
         file reference from reference_file
 
@@ -297,6 +299,7 @@ if (params.assemblies) {
     label "alignment"
 
     tag {"$id"}
+  conda "${baseDir}/envs/resfinder_py.yml"
     publishDir "${params.outdir}/Resfinder", mode: 'copy', pattern: "*_resfinder.txt", overwrite: true
 
   input:
@@ -333,6 +336,7 @@ if (params.assemblies) {
 
     label "alignment"
     tag {"$id"}
+  conda "${baseDir}/envs/resfinder_py.yml"
     publishDir "${params.outdir}/Resfinder", mode: 'copy', pattern: "*_resfinder.txt", overwrite: true
 
   input:
@@ -383,6 +387,7 @@ process Deduplicate {
 
     label "markduplicates"
     tag { "$id" }
+  conda "${baseDir}/envs/snpeff_java.yml"
     publishDir "${params.outdir}/bams", mode: 'copy', pattern: "*.bam*", overwrite: false
 
     input:
@@ -418,7 +423,7 @@ if (params.mixtures) {
 
     label "gatk"
     tag { "$id" }
-  conda "${baseDir}/envs/snpeff.yml"
+  conda "${baseDir}/envs/snpeff21.yml"
     publishDir "${params.outdir}/Variants/Annotated", mode: 'copy', pattern: "*.ALL.annotated.mixture.vcf", overwrite: false
     publishDir "${params.outdir}/Variants/VCFs", mode: 'copy', pattern: "*.PASS.snps.indels.mixed.vcf", overwrite: false
 
@@ -465,9 +470,9 @@ if (params.mixtures) {
 
   process MixtureSummariesSQL {
 
-    label "ardap_default"
-    tag { "$id" }
-  conda "${baseDir}/envs/snpeff.yml"
+  label "ardap_default"
+  tag { "$id" }
+  conda "${baseDir}/envs/snpeff_java.yml"
 
     input:
     set id, file(variants) from mixtureArdapProcessing
@@ -528,9 +533,9 @@ if (params.mixtures) {
 
     process VariantCalling {
 
-      label "gatk"
-      tag { "$id" }
-  conda "${baseDir}/envs/snpeff.yml"
+    label "gatk"
+    tag { "$id" }
+  conda "${baseDir}/envs/snpeff_java.yml"
       publishDir "${params.outdir}/Variants/VCFs", mode: 'copy', pattern: "*FAIL*.vcf", overwrite: false
       publishDir "${params.outdir}/Variants/VCFs", mode: 'copy', pattern: "*PASS*.vcf", overwrite: false
       publishDir "${params.outdir}/Variants/Annotated", mode: 'copy', pattern: "*annotated*.vcf", overwrite: false
@@ -718,7 +723,7 @@ if (params.phylogeny) {
     label "master_vcf"
    // tag { "$id" }
     publishDir "${params.outdir}/Master_vcf", mode: 'copy', overwrite: true
-
+    conda "${baseDir}/envs/snpeff_java.yml"
     input:
     file("*.raw.gvcf") from gvcf_files.collect()
     file reference from reference_file
@@ -741,6 +746,7 @@ if (params.phylogeny) {
   }
   process snp_matrix {
     label "snp_matrix"
+    conda "${baseDir}/envs/snpeff21.yml"
     publishDir "${params.outdir}/Phylogeny_and_annotation", mode: 'copy', overwrite: false
 
     input:

@@ -5,9 +5,29 @@ channels:
   - defaults
 
 dependencies:
+  - mamba
+  - python=3.8
+  - pandas
+  - numpy
+  - biopython
+  - sqlite
+  - pip
+  - beautifulsoup4
+  # Use Java 17 to be compatible with SnpEff 5+ and GATK 4.4
   - openjdk=17
-  - snpeff=5.1
-  - gatk4
+  - snpeff>=5
+  # Use a GATK 4.4 series release compatible with Java 17
+  - gatk4=4.4.0.0
+  - bcftools=1.9
   - delly
-  - bcftools
+  - samtools=1.9
+  - picard=2.27.5
+  - bwa
+  - bedtools=2.28.0
+  - kma
   - htslib
+  - pip:
+    - tabulate
+    - cgecore
+    - gitpython
+    - python-dateutil
